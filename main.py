@@ -145,7 +145,7 @@ if __name__ == '__main__':
             if inp == "1":
                 name = input("Enter City name: ")
                 data = {"name": name}
-                provinces = province_controller.create()
+                provinces = province_controller.create(data=data)
             if inp == "2":
                 pass
 

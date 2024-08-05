@@ -1,4 +1,6 @@
 from app.address.controller import AddressController
+from app.city.controller import CityController
+from app.province.controller import ProvinceController
 from app.user.controller import UserController
 from app.city.repository import CityRepository
 from app.province.repository import ProvinceRepository
@@ -11,7 +13,7 @@ def show_menu():
     2- add member address
     3- list member_address
     4 - list users of city
-    5 - print your name
+    5 - base
     0- exit
     """)
 
@@ -27,8 +29,8 @@ def get_input(content, allowed_list):
 
 address_controller = AddressController()
 user_controller = UserController()
-province_repository = ProvinceRepository(Mysql.db)
-city_repository = CityRepository(Mysql.db)
+province_controller = ProvinceController()
+city_controller = CityController()
 if __name__ == '__main__':
     while True:
         show_menu()
@@ -65,14 +67,14 @@ if __name__ == '__main__':
             allowed_number = [str(user.get("id")) for user in users]
             user_id = get_input("User ID: ", allowed_number)
 
-            provinces = province_repository.list(limit=50)
+            provinces = province_controller.list(limit=50)
             for province in provinces:
                 print(f"{province.get('id')}- {province.get('name')}")
             allowed_number = [str(province.get("id")) for province in provinces]
             province_id = get_input("Province ID: ", allowed_number)
 
             filter = {"province_id": province_id}
-            cities = city_repository.list(filters=filter)
+            cities = city_controller.list(filters=filter)
             for city in cities:
                 print(f"{city.get('id')}- {city.get('name')}")
             allowed_number = [str(city.get("id")) for city in cities]
@@ -109,7 +111,7 @@ if __name__ == '__main__':
                 print(f"{address.get('id')}- {address.get('city_name')} {address.get('province_name')} : {address.get('address')} - call :{address.get('phone_number')}")
         if inp == "4":
             # list cities
-            cities = city_repository.list()
+            cities = city_controller.list()
             for city in cities:
                 print(f"{city.get('id')}- {city.get('name')}")
             allowed_number = [str(city.get("id")) for city in cities]
@@ -123,5 +125,40 @@ if __name__ == '__main__':
                 print(data)
 
         if inp == "5":
-            inp = input("enter you name:")
-            print(f"hi {inp}")
+            text = """
+    1 - Add Province
+    2 - Edit Province
+    3 - Delete Province
+            
+    4 - Add City
+    5 - Edit City
+    6 - Delete City
+            
+    0 - back
+            """
+
+            inp = get_input(text,["1","2","3","4","5","6","0"])
+
+            if inp == "0":
+                pass
+
+            if inp == "1":
+                name = input("Enter City name: ")
+                data = {"name": name}
+                provinces = province_controller.create()
+            if inp == "2":
+                pass
+
+            if inp == "3":
+                pass
+
+            if inp == "4":
+                pass
+
+            if inp == "5":
+                pass
+
+            if inp == "6":
+                pass
+
+

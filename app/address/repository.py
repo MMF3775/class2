@@ -57,23 +57,25 @@ class AddressRepository:
                 "phone_number": row[4],
             })
         return data
+    @handle_db_connection
 
-    def create(self, data):
+    def create(self, data,db_connection=None):
         sql = "INSERT INTO addresses (user_id, province_id,city_id,address,phone_number, description,created_at) VALUES (%s, %s, %s, %s, %s, %s, %s)"
         val = (
             data.get('user_id'), data.get('province_id'), data.get('city_id'), data.get('address'),data.get('phone_number'),data.get('description'),
             datetime.now())
-        cursor = self.db.cursor()
+        cursor = db_connection.cursor()
         cursor.execute(sql, val)
 
-        self.db.commit()
+        db_connection.commit()
 
         cursor.close()
         return True, data
 
+    @handle_db_connection
 
-    def list_users_from_city_id(self, city_id):
-        cursor = self.db.cursor()
+    def list_users_from_city_id(self, city_id,db_connection=None):
+        cursor = db_connection.cursor()
         base_query = f"SELECT DISTINCT users.id,users.name,users.last_name,users.email FROM addresses JOIN users ON addresses.user_id = users.id WHERE city_id = {city_id}"
 
         cursor.execute(base_query)

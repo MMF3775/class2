@@ -1,11 +1,14 @@
+from app.province.repository import ProvinceRepository
+from core.connection import Mysql
+
 
 class ProvinceController:
     def __init__(self):
-        pass
+        self.db = Mysql.db
+        self.repository = ProvinceRepository(self.db)
 
-    # TODO T06 : Farahi
-    def create(self):
-        pass
+    def create(self, data):
+        return self.repository.create(data=data)
 
     # TODO T07 : forghani
     def update(self):

@@ -11,7 +11,7 @@ def show_menu():
     2- add member address
     3- list member_address
     4 - list users of city
-    5 - print your name
+    5 - 
     0- exit
     """)
 

@@ -6,5 +6,5 @@ class Mysql:
         host="localhost",
         user="root",
         passwd="",
-        database="contacts"
+        database="addressbook"
     )

@@ -1,5 +1,7 @@
 from datetime import datetime
 
+from mysql.connector import IntegrityError
+
 
 class CityRepository:
     def __init__(self, db):
@@ -11,9 +13,12 @@ class CityRepository:
         if filters is not None:
             base_query += " WHERE"
 
+            if filters.get("id") is not None:
+                base_query += f"{' AND' if not is_first else ''} id = {str(filters.get('id'))}"
+                is_first = False
+
             if filters.get("province_id") is not None:
                 base_query += f"{' AND' if not is_first else ''} province_id = {str(filters.get('province_id'))}"
-                is_first = False
 
         if order_by is not None and order_by in ["id", "province_id"]:
             base_query += f" ORDER BY {order_by}"
@@ -38,6 +43,30 @@ class CityRepository:
                 "province_id": row[2],
             })
         return data
+
+    def update(self,  city_id: str, name: str = None, province_id: str = None):
+        status = self.exist(city_id=city_id)
+        col_list = []
+        if name is not None:
+            col_list.append(f"name = '{name}'")
+        if province_id is not None:
+            col_list.append(f"province_id = {province_id}")
+
+        col_str = ", ".join(col_list)
+        if status is True:
+            query = f"UPDATE cities SET {col_str} WHERE id = {city_id}"
+            print(query)
+            cursor = self.db.cursor()
+            try:
+                cursor.execute(query)
+            except IntegrityError:
+                return False
+            else:
+                self.db.commit()
+                return True
+
+        else:
+            return False
 
     def exist(self, city_id,province_id = None):
 

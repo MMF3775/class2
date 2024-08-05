@@ -122,5 +122,6 @@ if __name__ == '__main__':
             else:
                 print(data)
 
-            if inp == "5":
-                print("hello world")
+        if inp == "5":
+            inp = input("enter you name:")
+            print(f"hi {inp}")

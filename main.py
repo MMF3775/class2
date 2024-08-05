@@ -11,6 +11,7 @@ def show_menu():
     2- add member address
     3- list member_address
     4 - list users of city
+    5 - print your name
     0- exit
     """)
 
@@ -31,7 +32,7 @@ city_repository = CityRepository(Mysql.db)
 if __name__ == '__main__':
     while True:
         show_menu()
-        inp = get_input("Please enter your action: ", ["1", "2", "3", "0","4"])
+        inp = get_input("Please enter your action: ", ["1", "2", "3", "0","4", "5"])
 
         if inp == "0":
             print("Exit")
@@ -120,3 +121,6 @@ if __name__ == '__main__':
                     print(user)
             else:
                 print(data)
+
+            if inp == "5":
+                print("hello world")

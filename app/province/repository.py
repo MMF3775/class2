@@ -33,6 +33,17 @@ class ProvinceRepository:
             })
         return data
 
+    def create(self, data):
+        sql = "INSERT INTO provinces (name, created_at, updated_at) VALUES (%s, %s, %s)"
+        val = (data.get('name'),datetime.now(), datetime.now())
+        cursor = self.db.cursor()
+        cursor.execute(sql, val)
+
+        self.db.commit()
+
+        cursor.close()
+        return True, data
+
     def exist(self, province_id):
 
         base_query = f"SELECT EXISTS(SELECT id FROM provinces WHERE id ={province_id})"

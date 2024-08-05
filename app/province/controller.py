@@ -10,9 +10,8 @@ class ProvinceController:
     def list(self):
         return self.repository.list(limit=20)
 
-    # TODO T06 : Farahi
-    def create(self,data):
-        pass
+    def create(self, data):
+        return self.repository.create(data=data)
 
     # TODO T07 : forghani
     def update(self):

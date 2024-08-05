@@ -1,7 +1,7 @@
 from datetime import datetime
 
 
-class CityRepository:
+class ProvinceRepository:
     def __init__(self, db):
         self.db = db
 
@@ -41,7 +41,7 @@ class CityRepository:
 
     def exist(self, city_id,province_id = None):
 
-        base_query = f"SELECT EXISTS(SELECT id FROM cities WHERE id ={city_id})"
+        base_query = users.username AS username, SUM(total_price) AS total_paidf"SELECT EXISTS(SELECT id FROM cities WHERE id ={city_id})"
         if province_id is not None:
             base_query += f" AND province_id = {province_id})"
         cursor = self.db.cursor()

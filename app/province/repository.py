@@ -41,3 +41,14 @@ class ProvinceRepository:
         result = cursor.fetchone()
         cursor.close()
         return True if result[0] == 1 else False
+
+    def update(self, province_id, new_name):
+        query = "UPDATE provinces SET name = {new_name} WHERE id = {province_id};"
+        cursor = self.db.cursor()
+        cursor.execute(query)
+        self.db.commit()
+        row = cursor.rowcount
+        cursor.close()
+        return True if row > 0 else False
+
+

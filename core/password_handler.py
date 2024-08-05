@@ -1,6 +1,5 @@
 import hashlib
 
-import bcrypt
 
 
 class PasswordHandler:

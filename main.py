@@ -2,7 +2,9 @@ from app.address.controller import AddressController
 from app.user.controller import UserController
 from app.city.repository import CityRepository
 from app.province.repository import ProvinceRepository
+from app.city.controller import CityController
 from core.connection import Mysql
+
 
 def show_menu():
     print("""
@@ -12,6 +14,7 @@ def show_menu():
     3- list member_address
     4 - list users of city
     5 - print your name
+    6. add a city
     0- exit
     """)
 
@@ -29,10 +32,11 @@ address_controller = AddressController()
 user_controller = UserController()
 province_repository = ProvinceRepository(Mysql.db)
 city_repository = CityRepository(Mysql.db)
+city_controller = CityController()
 if __name__ == '__main__':
     while True:
         show_menu()
-        inp = get_input("Please enter your action: ", ["1", "2", "3", "0","4", "5"])
+        inp = get_input("Please enter your action: ", ["1", "2", "3", "0", "4", "5", "6"])
 
         if inp == "0":
             print("Exit")
@@ -78,7 +82,6 @@ if __name__ == '__main__':
             allowed_number = [str(city.get("id")) for city in cities]
             city_id = get_input("City ID: ", allowed_number)
 
-
             address = input("Address: ")
             phone_number = input("Phone number: ")
             description = input("Description: ")
@@ -90,7 +93,7 @@ if __name__ == '__main__':
                 "phone_number": phone_number,
                 "description": description
             }
-            status,data = address_controller.create(data=data)
+            status, data = address_controller.create(data=data)
             if status == True:
                 print("Address created successfully")
             else:
@@ -106,7 +109,8 @@ if __name__ == '__main__':
             filter = {"user_id": user_id}
             addresses = address_controller.list(filters=filter)
             for address in addresses:
-                print(f"{address.get('id')}- {address.get('city_name')} {address.get('province_name')} : {address.get('address')} - call :{address.get('phone_number')}")
+                print(
+                    f"{address.get('id')}- {address.get('city_name')} {address.get('province_name')} : {address.get('address')} - call :{address.get('phone_number')}")
         if inp == "4":
             # list cities
             cities = city_repository.list()
@@ -115,7 +119,7 @@ if __name__ == '__main__':
             allowed_number = [str(city.get("id")) for city in cities]
             city_id = get_input("City ID: ", allowed_number)
 
-            status,data = address_controller.get_users_of_city(city_id)
+            status, data = address_controller.get_users_of_city(city_id)
             if status is True:
                 for user in data:
                     print(user)
@@ -125,3 +129,11 @@ if __name__ == '__main__':
         if inp == "5":
             inp = input("enter you name:")
             print(f"hi {inp}")
+
+        if inp == "6":
+            inp_data = {'name': input("enter the city name:"), 'province_id': input("enter the province id:")}
+            status = city_controller.create(inp_data)
+            if status is True:
+                print("City created successfully")
+            else:
+                print("Oops! Maybe later ;)")

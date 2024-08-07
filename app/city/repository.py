@@ -1,4 +1,5 @@
 from datetime import datetime
+from datetime import datetime
 
 from mysql.connector import IntegrityError
 
@@ -78,3 +79,13 @@ class CityRepository:
         result = cursor.fetchone()
         cursor.close()
         return True if result[0] == 1 else False
+
+    def create(self, inp_data):
+
+        base_query = f"INSERT INTO cities (name,province_id,created_at) VALUES (%s, %s, %s)"
+        value = (inp_data.get('name'), inp_data.get('province_id'), datetime.now())
+        cursor = self.db.cursor()
+        cursor.execute(base_query, value)
+        self.db.commit()
+        print("1 record inserted, ID:", cursor.lastrowid)
+        return True

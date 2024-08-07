@@ -33,5 +33,13 @@ class CityController:
         return CityRepository(self.db).update(name=data.get("name"), city_id=city_id, province_id=data.get("province_id"))
 
     # TODO T005 : zabihi
-    def delete(self):
-        pass
+    def delete(self, city_id):
+        if city_id is None:
+            return False, "City ID can't be None"
+
+        city_repository = CityRepository(Mysql.db)
+        if not city_repository.exist(city_id):
+            return False, f"city {city_id} not found"
+
+        city_repository.delete_city(city_id)
+        return True, f"city {city_id} delete Done."

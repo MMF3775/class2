@@ -81,11 +81,17 @@ class CityRepository:
         return True if result[0] == 1 else False
 
     def create(self, inp_data):
-
         base_query = f"INSERT INTO cities (name,province_id,created_at) VALUES (%s, %s, %s)"
         value = (inp_data.get('name'), inp_data.get('province_id'), datetime.now())
         cursor = self.db.cursor()
         cursor.execute(base_query, value)
         self.db.commit()
         print("1 record inserted, ID:", cursor.lastrowid)
+
+    def delete_city(self, city_id):
+        base_query = f"DELETE FROM cities WHERE id = {city_id}"
+        cursor = self.db.cursor()
+        cursor.execute(base_query)
+        self.db.commit()
+        cursor.close()
         return True

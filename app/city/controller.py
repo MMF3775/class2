@@ -1,3 +1,5 @@
+from app.city.repository import CityRepository
+from core.connection import Mysql
 
 class CityController:
     def __init__(self):
@@ -15,9 +17,9 @@ class CityController:
         if city_id is None:
             return False, "City ID can't be None"
 
-        city_repository = CityRepository(self.db)
-        if not city_repository.exists(city_id):
+        city_repository = CityRepository(Mysql.db)
+        if not city_repository.exist(city_id):
             return False, f"city {city_id} not found"
 
-        city_repository.delete(city_id)
+        city_repository.delete_city(city_id)
         return True, f"city {city_id} delete Done."

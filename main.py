@@ -131,7 +131,8 @@ if __name__ == '__main__':
             allowed_number = [str(city.get("id")) for city in cities]
             city_id = get_input("City ID: ", allowed_number)
 
-            status, data = CityController.delete_city(city_id)
+            city_controller = CityController()
+            status, data = city_controller.delete(city_id)
             if status is True:
                 print("City deleted successfully")
             else:

@@ -7,6 +7,8 @@ class CityController:
         self.province_repository = ProvinceRepository(self.db)
         self.city_repository = CityRepository(self.db)
 
+    def list(self):
+        return self.city_repository.list()
     # TODO T03 : gashtasbi
     def create(self,inp_data: dict):
         if inp_data.get('name') is not None:

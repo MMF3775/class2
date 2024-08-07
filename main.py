@@ -166,6 +166,17 @@ if __name__ == '__main__':
                 pass
 
             if inp == "6":
-                pass
+                cities = city_controller.list()
+                for city in cities:
+                    print(f"{city.get('id')}- {city.get('name')}")
+                allowed_number = [str(city.get("id")) for city in cities]
+                city_id = get_input("City ID: ", allowed_number)
+
+                city_controller = CityController()
+                status, data = city_controller.delete(city_id)
+                if status is True:
+                    print("City deleted successfully")
+                else:
+                    print("City not deleted")
 
 

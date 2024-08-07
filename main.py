@@ -1,4 +1,5 @@
 from app.address.controller import AddressController
+from app.city.controller import CityController
 from app.user.controller import UserController
 from app.city.repository import CityRepository
 from app.province.repository import ProvinceRepository
@@ -12,6 +13,7 @@ def show_menu():
     3- list member_address
     4 - list users of city
     5 - print your name
+    7 - delete city
     0- exit
     """)
 
@@ -32,7 +34,7 @@ city_repository = CityRepository(Mysql.db)
 if __name__ == '__main__':
     while True:
         show_menu()
-        inp = get_input("Please enter your action: ", ["1", "2", "3", "0","4", "5"])
+        inp = get_input("Please enter your action: ", ["1", "2", "3", "0","4", "5", "7"])
 
         if inp == "0":
             print("Exit")
@@ -122,6 +124,15 @@ if __name__ == '__main__':
             else:
                 print(data)
 
-        if inp == "5":
-            inp = input("enter you name:")
-            print(f"hi {inp}")
+        if inp == "7":
+            cities = city_repository.list()
+            for city in cities:
+                print(f"{city.get('id')}- {city.get('name')}")
+            allowed_number = [str(city.get("id")) for city in cities]
+            city_id = get_input("City ID: ", allowed_number)
+
+            status, data = CityController.delete_city(city_id)
+            if status is True:
+                print("City deleted successfully")
+            else:
+                print("City not deleted")

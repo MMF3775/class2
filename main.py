@@ -31,8 +31,7 @@ def get_input(content, allowed_list):
 
 address_controller = AddressController()
 user_controller = UserController()
-province_repository = ProvinceRepository(Mysql.db)
-city_repository = CityRepository(Mysql.db)
+province_controller = ProvinceController()
 city_controller = CityController()
 if __name__ == '__main__':
     while True:
@@ -156,7 +155,12 @@ if __name__ == '__main__':
                 pass
 
             if inp == "4":
-                pass
+                inp_data = {'name': input("enter the city name:"), 'province_id': input("enter the province id:")}
+                status = city_controller.create(inp_data)
+                if status is True:
+                    print("City created successfully")
+                else:
+                    print("Oops! Maybe later ;)")
 
             if inp == "5":
                 pass

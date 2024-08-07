@@ -49,3 +49,11 @@ class CityRepository:
         result = cursor.fetchone()
         cursor.close()
         return True if result[0] == 1 else False
+
+    def delete_city(self, city_id):
+        base_query = "DELETE FROM cities WHERE id = ?"
+        cursor = self.db.cursor()
+        cursor.execute(base_query, (city_id,))
+        self.db.commit()
+        cursor.close()
+        return True

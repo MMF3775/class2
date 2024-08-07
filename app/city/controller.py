@@ -10,7 +10,7 @@ class CityController:
     # TODO T03 : gashtasbi
     def create(self,inp_data: dict):
         if inp_data.get('name') is not None:
-            if int(inp_data.get('province_id')).is_integer():
+            if inp_data.get('province_id').isdigit():
                 province_status = self.province_repository.exist(inp_data.get('province_id'))
                 if province_status:
                     create_status = self.city_repository.create(inp_data)
